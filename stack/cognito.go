@@ -50,6 +50,10 @@ func setupUserPool(stack awscdk.Stack) {
 		OAuth: &awscognito.OAuthSettings{
 			CallbackUrls: jsii.Strings("https://fxc.hbt.ockenden.io/signin"),
 			LogoutUrls:   jsii.Strings("https://fxc.hbt.ockenden.io/signout"),
+			Flows: &awscognito.OAuthFlows{
+				AuthorizationCodeGrant: jsii.Bool(false),
+				ImplicitCodeGrant:      jsii.Bool(true),
+			},
 		},
 	})
 
