@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
