@@ -18,6 +18,7 @@ func NewStack(scope constructs.Construct, id string, props *StackProps) awscdk.S
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
 	setupUserPool(stack)
+	setupCloudFront(stack)
 
 	return stack
 }
