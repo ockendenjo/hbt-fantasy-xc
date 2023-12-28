@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awsdynamodb"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 )
@@ -18,6 +19,38 @@ func NewStack(scope constructs.Construct, id string, props *StackProps) awscdk.S
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
 	setupCloudFront(stack)
+
+	awsdynamodb.NewTable(stack, jsii.String("users"), &awsdynamodb.TableProps{
+		PartitionKey: &awsdynamodb.Attribute{
+			Name: jsii.String("email"),
+			Type: awsdynamodb.AttributeType_STRING,
+		},
+		BillingMode:         awsdynamodb.BillingMode_PAY_PER_REQUEST,
+		TableClass:          awsdynamodb.TableClass_STANDARD,
+		TimeToLiveAttribute: jsii.String("TTL"),
+		TableName:           jsii.String("HbtFantasyXcUsers"),
+	})
+
+	awsdynamodb.NewTable(stack, jsii.String("challenges"), &awsdynamodb.TableProps{
+		PartitionKey: &awsdynamodb.Attribute{
+			Name: jsii.String("challenge_id"),
+			Type: awsdynamodb.AttributeType_STRING,
+		},
+		BillingMode:         awsdynamodb.BillingMode_PAY_PER_REQUEST,
+		TableClass:          awsdynamodb.TableClass_STANDARD,
+		TimeToLiveAttribute: jsii.String("TTL"),
+		TableName:           jsii.String("HbtFantasyXcChallenges"),
+	})
+
+	awsdynamodb.NewTable(stack, jsii.String("sessions"), &awsdynamodb.TableProps{
+		PartitionKey: &awsdynamodb.Attribute{
+			Name: jsii.String("session_id"),
+			Type: awsdynamodb.AttributeType_STRING,
+		},
+		BillingMode: awsdynamodb.BillingMode_PAY_PER_REQUEST,
+		TableClass:  awsdynamodb.TableClass_STANDARD,
+		TableName:   jsii.String("HbtFantasyXcSessions"),
+	})
 
 	return stack
 }
